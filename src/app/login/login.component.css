@@ -1,47 +1,84 @@
+.main__body {
+  background: url(../../assets/images/srh.jpg); 
+  background-color: #068d49;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  /* transform: translate(0%,50%); */
+}
+
+.login__page {
+  height: 100%;
+}
+
+.row {
+  height: 100%;
+}
+
+.login__card {
+  height: 100%;
+}
+
 .btn {
-    background-color: #008CBA;
-    ;
-    /* Green */
-    border: 1;
-    color: white;
-    padding: 15px 32px;
+  background-color: #008CBA;
+  ;
+  /* Green */
+  border: 1;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 270px;
+  -webkit-transition: background-color 0.2s, color 0.2s, border 0.2s; 
+  transition: background-color 0.2s, color 0.2s, border 0.2s;
+}
+.btn:hover {
+  background-color: #3e8e41
+}
+.btn:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px rgb(14, 11, 11);
+  transform: translateY(4px);
+}
+
+
+
+
+.card {
+  background-color: transparent;
+  border-style: hidden;
+  height: 100%;
+  /* width: 50%; */
+}
+
+.card-block userform h3 {
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 270px;
-    -webkit-transition: background-color 0.2s, color 0.2s, border 0.2s; 
-    transition: background-color 0.2s, color 0.2s, border 0.2s;
-  }
-  .btn:hover {
-    background-color: #3e8e41
-  }
-  .btn:active {
-    background-color: #3e8e41;
-    box-shadow: 0 5px rgb(14, 11, 11);
-    transform: translateY(4px);
-  }
+}
+
+.text-success{
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: white;
+  text-align: center;
+  font-style: bold;  
+}
+.btn-reset:hover {
+  background-color: #3e8e41
+}
+.btn-reset {
+  padding: 10px 25px;
+}
+
+/* @media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max-moz-device-pixel-ratio: 2) {
   .main__body {
-    height: 100%;
-    background-color: #068d49;
-    background-image: url('../../assets/images/srh.jpg');
-    background-size: cover;
+    height: 200%;
   }
-
-  .card-block userform h3 {
-      text-align: center;
-  }
-
-  .text-success{
-color: white;
-    text-decoration: underline;
-    text-decoration-color: white;
-    text-align: center;
-    font-style: bold;  
-  }
-  .btn-reset:hover {
-    background-color: #3e8e41
-  }
-  .btn-reset {
-    padding: 10px 25px;
-  }
+} */
