@@ -1,3 +1,62 @@
-<p>
-  contact works!
-</p>
+<div class="container">
+  <app-navbar></app-navbar>
+  <div class="jumbotron" style="margin:0 auto">
+
+      <h2 align=left style="padding-left:16px">
+          <b>Contact Us</b>
+      </h2>
+      
+      <hr width="30%" align=l eft>
+      
+      <div class="row" style="margin:0 auto">
+          <div class="col-md-4" >
+              <form [formGroup]="form" (ngSubmit)="onSubmit()" class="contact">
+                  <input type="text" placeholder="Your Name" formControlName="name">
+                  <input type="text" placeholder="Your email" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" formControlName="email">
+                  <textarea placeholder="Your Message" formControlName="message" rows="6"></textarea>
+                  <!-- <button type="submit" class="btn btn-success"  [disabled]="form.invalid">Submit</button> -->
+                  <button type="submit" class="btn btn-success">Submit</button>
+              </form>
+          </div>
+          <div class="col-md-4">
+              <h4 style="font-size: 150%">
+                  <b>Address</b>
+              </h4>
+
+              <p style="text-align:left;font-size: 120%">
+                  Bonhoefferstr. 4/1
+                  <br> Heidelberg, Germany
+
+              </p>
+
+              <h4 style="text-align: left">
+                  <b>Contact</b>
+              </h4>
+              <p style="text-align: left; font-size:120% ">
+                  06221 882288
+              </p>
+
+              <h4 style="text-align: left">
+                  <b>Email</b>
+              </h4>
+              <p style="text-align: left; font-size:120% ">
+                  info@campus-sports.srh.de
+              </p>
+              <h4 style="text-align: left">
+                  <b>Website</b>
+              </h4>
+              <p style="text-align: left; font-size:120% ">
+                  http://www.campussports.de
+              </p>
+
+          </div>
+          <div class="col-md-4">
+              <img style="float: left;" alt="" src="assets/images/team.jpg" height="300" width="350" />
+          </div>
+         
+          
+      </div>
+
+
+  </div>
+</div>

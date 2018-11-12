@@ -11,5 +11,4 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

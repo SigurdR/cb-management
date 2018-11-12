@@ -1,9 +1,49 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from "@angular/core";
+import {Event} from "../models/event";
+import {Http} from "@angular/http";
+import {ExtractData, HandleError, ExtractBody} from "./service-helper";
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { getLocaleDateTimeFormat } from '@angular/common';
 
-@Injectable({
-  providedIn: 'root'
-})
+
+import 'rxjs/add/operator/toPromise';
+import { Observable } from "rxjs/Observable";
+import { DataSnapshot } from "@firebase/database";
+
+@Injectable()
 export class EventService {
+ // private eventUrl = "api/event";
 
-  constructor() { }
+ private eventUrl = "https://srh-authentication.firebaseio.com/event";
+
+	constructor(public db: AngularFireDatabase, private http: Http) {}
+
+
+	get(): Promise<Event[]>{
+		return this.http.get(`${this.eventUrl}.json`)
+			.toPromise()
+			.then(ExtractBody)
+			.catch(HandleError);
+	}
+
+	insert(event: Event): Promise<void> {
+		return this.http.put(`${this.eventUrl}/${event.id}.json`, JSON.stringify(event))
+			.toPromise()
+			.then(ExtractData)
+			.catch(HandleError);
+	}
+
+	update(event: Event): Promise<void> {
+		return this.http.put(`${this.eventUrl}/${event.id}.json`, JSON.stringify(event))
+			.toPromise()
+			.then(ExtractData)
+			.catch(HandleError);
+  }
+
+	remove(id: number): Promise<void> {
+		return this.http.delete(`${this.eventUrl}/${id}.json`)
+			.toPromise()
+			.then(ExtractData)
+			.catch(HandleError);
+	}
 }

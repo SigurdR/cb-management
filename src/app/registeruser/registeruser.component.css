@@ -1,0 +1,91 @@
+.btn {
+    background-color: #008CBA;
+    ;
+    /* Green */
+    border: 1;
+    color: white;
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 270px;
+    -webkit-transition: background-color 0.2s, color 0.2s, border 0.2s;
+    transition: background-color 0.2s, color 0.2s, border 0.2s;
+  }
+  .btn:hover {
+    background-color: #3e8e41
+  }
+  .btn:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px rgb(14, 11, 11);
+    transform: translateY(4px);
+  }
+  .main__body {
+    height: 100%;
+    background-color: #068d49;
+    background-image: url('../../assets/images/srh.jpg');
+    background-size: cover;
+  }
+
+  .text-success{
+color: white;
+    text-decoration: underline;
+    text-decoration-color: white;
+    text-align: center;
+    font-style: bold;  
+  }
+  .btn-reset:hover {
+    background-color: #3e8e41
+  }
+  .btn-reset {
+    padding: 10px 25px;
+  }
+
+  .divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
+
+.button {
+    border: 1;
+    display: inline-block;
+    border-radius: 270px;
+    background-color: #008CBA;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 16px;
+    padding: 15px;
+    width: 315px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }

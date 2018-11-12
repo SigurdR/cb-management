@@ -1,0 +1,85 @@
+.container{
+    background-color: #72992a;
+    padding: 20px;
+      }
+
+      .row{
+        max-width: 1140px;
+        margin: 0 auto 0 auto;
+        margin: 0 auto; 
+    }
+
+    .plan-box{
+      background-color: #fff;
+      border-radius: 5px;
+      width: 90%;
+      margin-left: 5%;   
+      -webkit-box-shadow: 0 2px 2px #efefef;   
+      box-shadow: 0 2px 2px #efefef;
+  }
+  .js--wp-1{
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+.plan-price{
+  font-size: 300%;
+  margin-bottom: 10px;
+  font-weight: 100;
+  color: #e67e22
+}
+.plan-price span {
+  font-size: 30%;
+  font-weight: 300;
+}
+
+.plan-price-month {
+  font-size: 80%;
+}
+
+.icon-small{
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  color: #e67e22;
+  font-size: 120%;
+  margin-right: 10px; 
+  
+  /*secrets to align text and icons*/
+  line-height: 120%;
+  vertical-align: middle;
+  margin-top: -4px;
+
+}
+
+.right {
+    float: right;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+.bookingContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+/* 
+.bookingContainer > div{
+  padding-right: 25px;
+} */
+
+.centeredContent{
+  text-align: center;
+}
+centeredContent > div{
+  margin: 0 auto;
+}
+[hidden]{
+  display:none;
+}

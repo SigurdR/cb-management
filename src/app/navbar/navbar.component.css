@@ -1,0 +1,17 @@
+nav{
+    font-family: 'Lato', sans-serif;
+    background-color: #f1e8e8;
+  }
+
+  ul.nav a{
+    transition:0.3s ease;
+  }
+
+  ul.nav a:hover{
+    color: #fff;
+    background-color: rgb(8, 202, 41);
+  }
+  
+  .active>a{
+    background-color: #1f0e0e;
+  }

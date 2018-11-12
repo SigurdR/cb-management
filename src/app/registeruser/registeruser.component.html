@@ -1,3 +1,89 @@
-<p>
-  registeruser works!
-</p>
+<div class="main__body">
+  <div class="container">
+      <div class="row"> 
+          <div class="card col-md-4 col-md-offset-4">
+              <div class="login__card">
+                  <div class="card-block">
+                      <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+                          <h3 align="center">SRH Sports Club Registration</h3>
+                          <input type="hidden" name="uid" #uid="ngModel" [(ngModel)]="profileService.selectedProfile.uid">
+                        <div class="form-group">
+                          <label>email</label>
+                          <input class="form-control" pattern = "\d{8}@stud.hochschule-heidelberg.de" name="email" #email="ngModel" [(ngModel)]="profileService.selectedProfile.email" placeholder="University Email" required>
+                        </div>
+                        <div class="form-group">
+                          <label>Password</label>
+                          <input class="form-control" type="password" name="password" #password="ngModel" [(ngModel)]="profileService.selectedProfile.password" placeholder="Enter New Password" required>
+                        </div>
+                        <div class="form-group">
+                          <label>Name</label>
+                          <input class="form-control"  name="name" #name="ngModel" [(ngModel)]="profileService.selectedProfile.name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input class="form-control" type="date" name="dob" #name="ngModel" [(ngModel)]="profileService.selectedProfile.dob" placeholder="Birthday" required>
+                          </div>
+                        
+                        <div class="form-group">
+                          <label>Gender</label>
+                        <div class="form-control">
+                          <label class="radio-inline">
+                              <input type="radio" value="male"  name="gender" 
+                              #name="ngModel" [(ngModel)]="profileService.selectedProfile.gender"  required>
+                              Male
+                          </label>
+                          <label class="radio-inline">
+                              <input type="radio" value="female"  name="gender" 
+                              #name="ngModel" [(ngModel)]="profileService.selectedProfile.gender"  required>
+                              Female
+                          </label>
+                         
+                        
+                        </div>
+                          
+                        </div>
+                        
+                       
+                        <div class="form-group">
+                          <button class="button button-default button-block"  type="button" style="vertical-align:middle" (click)="onSubmit(profileForm)">
+                              <span>
+                            <i class="fa fa-floppy-o"></i>
+                             Submit
+                              </span>
+                            </button>
+                            
+                          <button class="button button-default button-block"  type="button" style="vertical-align:middle" (click)="resetForm(profileForm)">
+                            <span>
+                            <i class="fa fa-repeat"></i>
+                             Reset
+                            </span>
+                            </button>
+                            
+                             <button class="button button-default button-block"  type="button" style="vertical-align:middle" (click)="returnHome()">
+                                <span>
+                              <i class="fa fa-home"></i>
+                               Home
+                              </span>
+                              </button>
+                        </div>
+                        </form>
+
+
+                  </div>
+
+
+              </div>
+
+
+
+          </div>
+
+
+      </div>
+
+
+    </div>
+
+
+</div>
+

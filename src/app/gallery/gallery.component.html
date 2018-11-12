@@ -1,3 +1,27 @@
-<p>
-  gallery works!
-</p>
+
+
+        <app-navbar></app-navbar>
+   
+        <div class="row">
+        
+        <h2>SRH Sports Club Offers You</h2>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Football'" (click)="filterBy='Football'">Football</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Badminton'" (click)="filterBy='Badminton'">Badminton</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='BasketBall'" (click)="filterBy='BasketBall'">BasketBall</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='TableTennis'" (click)="filterBy='TableTennis'">TableTennis</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Cricket'" (click)="filterBy='Cricket'">Cricket</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Zumba'" (click)="filterBy='Zumba'">Zumba</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Volleyball'" (click)="filterBy='Volleyball'">Volleyball</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Wall-Climbing'" (click)="filterBy='Wall-Climbing'">Wall-Climbing</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Swimming'" (click)="filterBy='Swimming'">Swimming</button>
+        <button class="btn btn-lg btn-info" [class.active]="filterBy==='Gymnasium'" (click)="filterBy='Gymnasium'">Gymnasium</button>
+        <ul id="thumbnailsList">
+            <li *ngFor="let image of (visibleImages | imageFilter:filterBy)" >
+                <a [routerLink] ="['/image', image.id]">
+                    <img src="{{image.url}}" class="tn" width="200" height="160">
+                </a>
+            </li>
+        </ul>
+    </div>
+
