@@ -14,7 +14,11 @@ import { DataSnapshot } from "@firebase/database";
 export class EventService {
  // private eventUrl = "api/event";
 
- private eventUrl = "https://srh-authentication.firebaseio.com/event";
+	private eventUrl = "https://srh-authentication.firebaseio.com/events";
+	
+
+	// private eventUrl = "https://angular6-c3955.firebaseio.com/events";
+
 
 	constructor(public db: AngularFireDatabase, private http: Http) {}
 
@@ -26,7 +30,9 @@ export class EventService {
 			.catch(HandleError);
 	}
 
-	insert(event: Event): Promise<void> {
+
+
+	insert(event: Event): Promise<Event> {
 		return this.http.put(`${this.eventUrl}/${event.id}.json`, JSON.stringify(event))
 			.toPromise()
 			.then(ExtractData)
