@@ -14,10 +14,10 @@ import { DataSnapshot } from "@firebase/database";
 export class EventService {
  // private eventUrl = "api/event";
 
-	private eventUrl = "https://srh-authentication.firebaseio.com/events";
+	// private eventUrl = "https://srh-authentication.firebaseio.com/events";
 	
 
-	// private eventUrl = "https://angular6-c3955.firebaseio.com/events";
+	private eventUrl = "https://angular6-c3955.firebaseio.com/events";
 
 
 	constructor(public db: AngularFireDatabase, private http: Http) {}

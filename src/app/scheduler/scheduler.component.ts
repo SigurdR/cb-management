@@ -26,6 +26,8 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit(){
     scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+    scheduler.clearAll();
+    scheduler.config.readonly = true;
 
     scheduler.init("scheduler_here");
 
