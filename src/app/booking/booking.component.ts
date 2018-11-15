@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { BookingsService } from "../services/bookings.service";
+import { Slot } from '../models/slot';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-booking',
@@ -14,8 +16,7 @@ import { BookingsService } from "../services/bookings.service";
 
 export class BookingComponent implements OnInit {
 
-  ngOnInit() {
-  }
+  private objSubscription: ISubscription;
 
   title = 'SRH Großer hall Booking';
   description = 'Book your slot';
@@ -34,6 +35,8 @@ export class BookingComponent implements OnInit {
   bookings: Array<any>;
   currentUser = '';
   currentUserEmailName = '';
+  timeSlot: Slot[];
+
 
   constructor(public db: AngularFireDatabase, public authserve: AngularFireAuth, private bookingsService: BookingsService) {
     this.date_code = new Date();
@@ -54,6 +57,18 @@ export class BookingComponent implements OnInit {
     if (this.currentUser == null) {
       this.currentUser = this.currentUserEmailName;
     }
+  }
+
+  ngOnInit() {
+
+    this.objSubscription = this.bookingsService.getLongSlot().subscribe((slots: Array<Slot>) => {
+      this.timeSlot = slots;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.objSubscription.unsubscribe();
+    
   }
 
   calculateSlotsInfo() {
@@ -128,6 +143,11 @@ export class BookingComponent implements OnInit {
       if (isExist && isNotBooked) {
         this.DisplayMessageSlot = '';
         this.bookingsService.bookSlotDB(this.selectedDate, this.itemValue, this.currentUser);
+        this.bookingsService.insertEvent(
+          this.selectedDate, 
+          this.timeSlot[Number(this.itemValue)-1].start_time, 
+          this.timeSlot[Number(this.itemValue)-1].end_time, 
+          this.currentUser);
         this.itemValue = '';
       }
 
