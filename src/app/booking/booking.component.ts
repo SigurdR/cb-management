@@ -5,7 +5,10 @@ import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { BookingsService } from "../services/bookings.service";
 import { Slot } from '../models/slot';
+import { Event } from '../models/event';
 import { ISubscription } from 'rxjs/Subscription';
+import { EventService } from '../services/event.service';
+import { Services } from '@angular/core/src/view';
 
 @Component({
   selector: 'app-booking',
@@ -16,7 +19,8 @@ import { ISubscription } from 'rxjs/Subscription';
 
 export class BookingComponent implements OnInit {
 
-  private objSubscription: ISubscription;
+  private slotSubscription: ISubscription;
+  private hbSubscription: ISubscription;
 
   title = 'SRH Großer hall Booking';
   description = 'Book your slot';
@@ -36,9 +40,13 @@ export class BookingComponent implements OnInit {
   currentUser = '';
   currentUserEmailName = '';
   timeSlot: Slot[];
+  eArray: Event[];
+  event: Event = new Event();
 
-
-  constructor(public db: AngularFireDatabase, public authserve: AngularFireAuth, private bookingsService: BookingsService) {
+  constructor(public db: AngularFireDatabase, 
+              public authserve: AngularFireAuth, 
+              private bookingsService: BookingsService,
+              private eventService: EventService) {
     this.date_code = new Date();
 
     var date = new Date();
@@ -61,13 +69,16 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
 
-    this.objSubscription = this.bookingsService.getLongSlot().subscribe((slots: Array<Slot>) => {
-      this.timeSlot = slots;
+    this.slotSubscription = this.bookingsService.getLongSlot().subscribe((timeSlot: Array<Slot>) => {
+      this.timeSlot = timeSlot;
     });
+
+    
   }
 
   ngOnDestroy(): void {
-    this.objSubscription.unsubscribe();
+    this.slotSubscription.unsubscribe();
+    this.hbSubscription.unsubscribe();
     
   }
 
@@ -142,12 +153,28 @@ export class BookingComponent implements OnInit {
 
       if (isExist && isNotBooked) {
         this.DisplayMessageSlot = '';
+
+        let strStartDate = String(this.timeSlot[Number(this.itemValue)-1].start_time)+":00";
+        strStartDate = String(this.selectedDateNormal)+"T"+strStartDate;
+        let strEndDate = String(this.timeSlot[Number(this.itemValue)-1].end_time)+":00";
+        strEndDate = String(this.selectedDateNormal)+"T"+strEndDate;
+
+        this.event.start_date = new Date(strStartDate);
+        this.event.end_date = new Date(strEndDate);
+        this.event.text = this.currentUser;
+
         this.bookingsService.bookSlotDB(this.selectedDate, this.itemValue, this.currentUser);
-        this.bookingsService.insertEvent(
-          this.selectedDate, 
-          this.timeSlot[Number(this.itemValue)-1].start_time, 
-          this.timeSlot[Number(this.itemValue)-1].end_time, 
-          this.currentUser);
+        
+        this.eventService.addEvent(this.event);
+        this.event = new Event;
+        
+        // this.bookingsService.insertEvent(
+        //   this.selectedDate, 
+        //   this.timeSlot[Number(this.itemValue)-1].start_time, 
+        //   this.timeSlot[Number(this.itemValue)-1].end_time, 
+        //   this.currentUser);
+
+          
         this.itemValue = '';
       }
 
@@ -183,7 +210,7 @@ export class BookingComponent implements OnInit {
 
     this.hallBooking = this.bookingsService.getCurrentBookingsDB(this.selectedDate);
     var bookings = [];
-    this.hallBooking.subscribe(data => {
+    this.hbSubscription = this.hallBooking.subscribe(data => {
       bookings = [];
 
       if (data) {

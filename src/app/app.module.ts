@@ -38,6 +38,7 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisteruserComponent } from './registeruser/registeruser.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
+import { EventService } from './services/event.service';
 
 
 
@@ -77,7 +78,8 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
     AuthGuard,
     ImageFilterPipe,
     BookingsService,
-    ProfileService
+    ProfileService,
+    EventService
   ],
   bootstrap: [AppComponent]
 })
