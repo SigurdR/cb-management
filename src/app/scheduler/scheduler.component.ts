@@ -4,7 +4,7 @@ import {ElementRef, ViewChild, ViewEncapsulation } from "@angular/core";
 import "dhtmlx-scheduler";
 // import {} from "@types/dhtmlxscheduler";
 import {EventService} from "../services/event.service";
-import {Event} from "../models/Event";
+import {Event} from "../models/event";
 import { ISubscription } from 'rxjs/Subscription';
 import { and } from '@angular/router/src/utils/collection';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
@@ -72,16 +72,16 @@ export class SchedulerComponent implements OnInit {
     private serializeEvent(data: any, insert: boolean = false): Event {
     const result = {};
 
-    for(let i in data){
-        if(i.charAt(0) == "$" || i.charAt(0) == "_") continue;
-        if(insert && i == "id") continue;
-        if(data[i] instanceof Date){
-            result[i] = scheduler.templates.xml_format(data[i]);
-        } else {
-            result[i] = data[i];
+        for(let i in data){
+            if(i.charAt(0) == "$" || i.charAt(0) == "_") continue;
+            if(insert && i == "id") continue;
+            if(data[i] instanceof Date){
+                result[i] = scheduler.templates.xml_format(data[i]);
+            } else {
+                result[i] = data[i];
+            }
         }
-    }
-    return result as Event;
+        return result as Event;
     }
 
     private extractBody(data: any): Event[] {
