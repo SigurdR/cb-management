@@ -10,6 +10,7 @@ import { getLocaleDateTimeFormat } from '@angular/common';
 import 'rxjs/add/operator/toPromise';
 import { Observable, of } from "rxjs";
 import { DataSnapshot } from "@firebase/database";
+import { MaxLengthValidator } from "@angular/forms";
 
 @Injectable()
 export class EventService {
@@ -23,7 +24,7 @@ export class EventService {
 
 	eventRef: AngularFireList<Event> = null;
 
-	events: Event[];
+	// events: Event;
 
 
 	constructor(public db: AngularFireDatabase, private http: Http) {
@@ -54,16 +55,20 @@ export class EventService {
 			.catch(HandleError);
 	}
 
-	getEvents(): Observable<Event[]> {
-		return this.db.list('/events/').snapshotChanges().map((changes) => {
-			return changes.map( c => {
-			  return new Event({key: c.payload.key, ...c.payload.val()});
-			});
-		})     
+	// getEvents(): Observable<Event[]> {
+	// 	return this.db.list('/events/').snapshotChanges().map((changes) => {
+	// 		return changes.map( c => {
+	// 		  return new Event({key: c.payload.key, ...c.payload.val()});
+	// 		});
+	// 	})     
+	// }
+
+	getCurrentEvents(): Observable<any[]> {
+		return this.db.list('events/').valueChanges();
 	}
 
-	addEvent(events: Event): void {
-		this.eventRef.push(events);
+	addUserEvent(events: Event): void {
+		this.eventRef.push(JSON.parse(JSON.stringify(events)));
 	}
 
 
@@ -74,6 +79,8 @@ export class EventService {
 			.then(ExtractData)
 			.catch(HandleError);
 	}
+
+	
 
 	update(event: Event): Promise<void> {
 		return this.http.put(`${this.eventUrl}/${event.id}.json`, JSON.stringify(event))

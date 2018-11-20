@@ -8,7 +8,8 @@ import {Event} from "../models/event";
 import { ISubscription } from 'rxjs/Subscription';
 import { and } from '@angular/router/src/utils/collection';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from '@firebase/util';
+// import { Observable } from '@firebase/util';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -21,32 +22,38 @@ import { Observable } from '@firebase/util';
 
 export class SchedulerComponent implements OnInit {
 
-    objSubscription: ISubscription;
+    evObs: Observable<any[]>;
+    
+    private evSubs: ISubscription;
     allEvents: Event[];
+
 
   @ViewChild("scheduler_here") schedulerContainer: ElementRef;
 
   constructor(private eventService: EventService){}
 
   ngOnInit(){
-        scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+        scheduler.config.xml_date = "%m-%d-%Y, %g:%i:%s %A";
+        scheduler.config.hour_date = "%h:%i %A";
         scheduler.clearAll();
         scheduler.config.readonly = true;
-
+        scheduler.config.first_hour = 10;
+        scheduler.config.last_hour = 22;
+        
         scheduler.init("scheduler_here");
 
-        scheduler.attachEvent("onEventAdded",(id, ev) => {
-            this.eventService.insert(this.serializeEvent(ev, true))
-                .then((response)=> {
-                if(response.id != id){
-                        scheduler.changeEventId(id, response.id);
-                    }
-                // this.eventService.get()
-                //     .then((data) => {
-                //         scheduler.parse(this.extractBody(data), "json");
-                // });
-                })
-        });
+        // scheduler.attachEvent("onEventAdded",(id, ev) => {
+        //     this.eventService.insert(this.serializeEvent(ev, true))
+        //         .then((response)=> {
+        //         // if(response.id != id){
+        //         //         scheduler.changeEventId(id, response.id);
+        //         //     }
+        //         // this.eventService.get()
+        //         //     .then((data) => {
+        //         //         scheduler.parse(this.extractBody(data), "json");
+        //         // });
+        //         })
+        // });
 
         scheduler.attachEvent("onEventChanged", (id, ev) => {
             this.eventService.update(this.serializeEvent(ev));
@@ -55,18 +62,19 @@ export class SchedulerComponent implements OnInit {
         scheduler.attachEvent("onEventDeleted", (id) => {
             this.eventService.remove(id);
         });
-        
-        this.eventService.get()
-            .then((data) => {
-                scheduler.parse(this.extractBody(data), "json");
-                // scheduler.parse(data, "json");
-            })
 
-        this.objSubscription = this.eventService.getEvents().subscribe((allEvents: Array<Event>) => {
-            this.allEvents = allEvents;
+        this.evObs = this.eventService.getCurrentEvents();
+        this.evSubs = this.evObs.subscribe((data) => {
+            if (data) {
+                scheduler.parse(this.extractBody(data),"json");
+            }
         });
+    }
 
-    
+    ngOnDestroy(): void {
+        //Called once, before the instance is destroyed.
+        //Add 'implements OnDestroy' to the class.
+        this.evSubs.unsubscribe();
     }
 
     private serializeEvent(data: any, insert: boolean = false): Event {
@@ -92,6 +100,7 @@ export class SchedulerComponent implements OnInit {
             event = data[i];
             result.push(event);
         }
+
         return result;
 
     } 

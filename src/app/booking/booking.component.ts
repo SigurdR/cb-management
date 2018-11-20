@@ -10,6 +10,9 @@ import { ISubscription } from 'rxjs/Subscription';
 import { EventService } from '../services/event.service';
 import { Services } from '@angular/core/src/view';
 
+
+
+
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -19,8 +22,15 @@ import { Services } from '@angular/core/src/view';
 
 export class BookingComponent implements OnInit {
 
+  // event: Event = new Event();
+
+
+
   private slotSubscription: ISubscription;
   private hbSubscription: ISubscription;
+  private evSubscription: ISubscription;
+
+  
 
   title = 'SRH Großer hall Booking';
   description = 'Book your slot';
@@ -36,12 +46,15 @@ export class BookingComponent implements OnInit {
   slots: Observable<any[]>;
   slots2: Observable<any[]>;
   hallBooking: Observable<any[]>;
+  eventLog: Observable<any[]>;
   bookings: Array<any>;
   currentUser = '';
   currentUserEmailName = '';
   timeSlot: Slot[];
-  eArray: Event[];
-  event: Event = new Event();
+  serverEvent: Event[];
+  lastEvNum = 0;
+  // eArray: Event[];
+  
 
   constructor(public db: AngularFireDatabase, 
               public authserve: AngularFireAuth, 
@@ -56,6 +69,7 @@ export class BookingComponent implements OnInit {
 
     this.calculateSlotsInfo();
     this.calculateBookingsInfo();
+    this.findLastEv();
 
     this.currentUser = this.authserve.auth.currentUser.displayName;
     if (this.authserve.auth.currentUser.email != null) {
@@ -73,12 +87,15 @@ export class BookingComponent implements OnInit {
       this.timeSlot = timeSlot;
     });
 
-    
+    // this.evSubscription = this.eventService.getEvents().subscribe((serverEvent: Array<Event>) => {
+    //   this.serverEvent = serverEvent;
+    // })
   }
 
   ngOnDestroy(): void {
     this.slotSubscription.unsubscribe();
     this.hbSubscription.unsubscribe();
+    this.evSubscription.unsubscribe();
     
   }
 
@@ -137,6 +154,13 @@ export class BookingComponent implements OnInit {
 
 
   onSubmitSlot() {
+
+    // rewrite this function to implement different booking method for admin and user
+    // user: use text box in booking page to make book and update to event tree in firebase
+    // user: only possible to delete their bookings
+    // admin: use scheduler to crud bookings
+    // admin: will not use booking page
+
     var isExist = false;
     var isNotBooked = false;
 
@@ -154,26 +178,19 @@ export class BookingComponent implements OnInit {
       if (isExist && isNotBooked) {
         this.DisplayMessageSlot = '';
 
-        let strStartDate = String(this.timeSlot[Number(this.itemValue)-1].start_time)+":00";
-        strStartDate = String(this.selectedDateNormal)+"T"+strStartDate;
-        let strEndDate = String(this.timeSlot[Number(this.itemValue)-1].end_time)+":00";
-        strEndDate = String(this.selectedDateNormal)+"T"+strEndDate;
+        let strStartDate = String(this.selectedDateNormal) + "T" +String(this.timeSlot[Number(this.itemValue)-1].start_time);
+        let strEndDate = String(this.selectedDateNormal) + "T" + String(this.timeSlot[Number(this.itemValue)-1].end_time);
 
-        this.event.start_date = new Date(strStartDate);
-        this.event.end_date = new Date(strEndDate);
-        this.event.text = this.currentUser;
+        var event = [];
+
+        event[0] = this.lastEvNum;
+        event[1] = new Date(strStartDate).toLocaleString();
+        event[2] = new Date(strEndDate).toLocaleString();
+        event[3] = this.currentUser;
 
         this.bookingsService.bookSlotDB(this.selectedDate, this.itemValue, this.currentUser);
-        
-        this.eventService.addEvent(this.event);
-        this.event = new Event;
-        
-        // this.bookingsService.insertEvent(
-        //   this.selectedDate, 
-        //   this.timeSlot[Number(this.itemValue)-1].start_time, 
-        //   this.timeSlot[Number(this.itemValue)-1].end_time, 
-        //   this.currentUser);
 
+        this.eventService.addUserEvent(new Event(event));
           
         this.itemValue = '';
       }
@@ -203,6 +220,20 @@ export class BookingComponent implements OnInit {
     }
 
     this.calculateBookingsInfo();
+  }
+
+  findLastEv() {
+
+    this.eventLog = this.eventService.getCurrentEvents();
+    this.evSubscription = this.eventLog.subscribe(data => {
+      
+      if (data && data.length > 0) {
+        return Math.max.apply(Math, data.map((item) => {
+          this.lastEvNum = Number(item.id)+1
+        }))
+      }
+      else this.lastEvNum = Number(1)
+    });
   }
 
 
@@ -254,5 +285,16 @@ export class BookingComponent implements OnInit {
       }
     })
   }
+
+  serializeEvent(data: any, insert: boolean = false): Event {
+    const result = {};
+
+        for(let i in data){
+            if(i.charAt(0) == "$" || i.charAt(0) == "_") continue;
+            if(insert && i == "id") continue;
+            result[i] = data[i];
+        }
+        return result as Event;
+    }
 }
 
