@@ -11,7 +11,8 @@ import {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule
-    } from '@angular/material'
+    } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import {
         MatGridListModule,
         MatCardModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatMomentDateModule
     ],
     exports: [
         MatBadgeModule,

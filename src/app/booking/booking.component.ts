@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../services/auth.service';
@@ -9,9 +9,13 @@ import { Event } from '../models/event';
 import { ISubscription } from 'rxjs/Subscription';
 import { EventService } from '../services/event.service';
 import { Services } from '@angular/core/src/view';
+import { MatDatepicker } from '@angular/material';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { FormControl } from '@angular/forms';
+import * as _moment from 'moment';
 
-
-
+const moment = _moment;
 
 @Component({
   selector: 'app-booking',
@@ -22,7 +26,7 @@ import { Services } from '@angular/core/src/view';
 
 export class BookingComponent implements OnInit {
 
-  // event: Event = new Event();
+  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
 
 
@@ -53,6 +57,12 @@ export class BookingComponent implements OnInit {
   timeSlot: Slot[];
   serverEvent: Event[];
   lastEvNum = 0;
+  minDate: Date;
+  maxDate: Date;
+  mDate: FormControl;
+  
+
+  MAT_DATE_FORMATS = MAT_MOMENT_DATE_FORMATS;
   // eArray: Event[];
   
 
@@ -79,6 +89,14 @@ export class BookingComponent implements OnInit {
     if (this.currentUser == null) {
       this.currentUser = this.currentUserEmailName;
     }
+
+    // date.getDate return the day of the month
+    // date.setDate(day of the month) return the date object with the day of the month
+
+    this.minDate = new Date(date.setDate(date.getDate()+1));
+    this.maxDate = new Date(date.setDate(date.getDate()+13));
+
+     this.mDate = new FormControl(moment([2017,0,1]));
   }
 
   ngOnInit() {
