@@ -12,6 +12,12 @@
           <h4>{{description}}</h4>
         </div>
 
+        <div class="userInput" style="width: 300px;">
+          <input matInput [matDatepicker] = "picker" placeholder="Choose a Date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+
         <div style="width: 300px;">
           <form (ngSubmit)="onSubmitSlot()">
             <div class="form-group">

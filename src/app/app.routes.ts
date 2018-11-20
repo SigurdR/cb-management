@@ -24,26 +24,32 @@ const appRoutes: Routes = [
     },
     {
         path: 'navbar',
+        canActivate: [AuthGuard],
         component: NavbarComponent
     },
     {
         path: 'about',
+        canActivate: [AuthGuard],
         component: AboutComponent
     },
     {
         path: 'contact',
+        canActivate: [AuthGuard],
         component: ContactComponent
     },
     {
         path: 'booking',
+        canActivate: [AuthGuard],
         component: BookingComponent
     },
     {
         path: 'gallery',
+        canActivate: [AuthGuard],
         component: GalleryComponent
     },
     {
         path: 'registeruser',
+        canActivate: [AuthGuard],
         component: RegisteruserComponent
     },
 ];
