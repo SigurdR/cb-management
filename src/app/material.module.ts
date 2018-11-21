@@ -14,7 +14,8 @@ import {
     DateAdapter,
     MatInputModule,
     MatInput,
-    MatSelectModule
+    MatSelectModule,
+    MAT_DATE_LOCALE
     } from '@angular/material';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DateFormat } from './date-format';
@@ -42,6 +43,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         {
             provide: DateAdapter,
             useClass: DateFormat
+        },
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'zh-TW'
         }
     ],
     exports: [

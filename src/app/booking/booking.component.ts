@@ -60,13 +60,7 @@ export class BookingComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   dateNotSet: boolean;
-  // mDate: FormControl;
   
-
-  // MAT_DATE_FORMATS = MAT_MOMENT_DATE_FORMATS;
-  // eArray: Event[];
-
-  // @Output() orgValueChange = new EventEmitter();
   
   
 
@@ -321,12 +315,8 @@ export class BookingComponent implements OnInit {
       return result as Event;
   }
 
-  orgValueChanged() {
-    // this.orgValueChange.emit();
-    this.dateNotSet=false;
-    
-
-
+  enableTimeSelect() {
+    this.dateNotSet = false;
   }
 }
 
