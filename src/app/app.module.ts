@@ -40,6 +40,7 @@ import { RegisteruserComponent } from './registeruser/registeruser.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { EventService } from './services/event.service';
 import { MaterialModule } from './material.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 

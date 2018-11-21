@@ -10,9 +10,15 @@ import {
     MatGridListModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    DateAdapter,
+    MatInputModule,
+    MatInput,
+    MatSelectModule
     } from '@angular/material';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+// import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DateFormat } from './date-format';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     imports: [
@@ -27,7 +33,16 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
         MatCardModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatMomentDateModule
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule
+        // MatMomentDateModule
+    ],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: DateFormat
+        }
     ],
     exports: [
         MatBadgeModule,
@@ -40,8 +55,15 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
         MatGridListModule,
         MatCardModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule
     ]
 })
 
-export class MaterialModule {}
+export class MaterialModule {
+    constructor (private dateAdapter: DateAdapter<Date> ) {
+        dateAdapter.setLocale('en-in');
+    }
+}

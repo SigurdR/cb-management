@@ -14,13 +14,23 @@
 
         <div class="userInput" style="width: 300px;">
           <mat-form-field>
-            <input matInput [min] = "minDate" [max] = "maxDate" [matDatepicker] = "picker" placeholder="Choose a Date" [formControl]="mDate">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field> 
+              <input matInput #dateInput [min] = "minDate" [max] = "maxDate" [matDatepicker] = "picker" placeholder="Choose a Date" (dateInput)="orgValueChane(ref.value)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="Time">
+            <mat-select placeholder="Time Slot" [disabled]="dateNotSet">
+              <mat-option value="2:00">2:00</mat-option>
+              <mat-option value="4:00">4:00</mat-option>
+              <mat-option value="6:00">6:00</mat-option>
+              <mat-option value="8:00">8:00</mat-option>
+              <mat-option value="10:00">10:00</mat-option>
+              <mat-option value="12:00">12:00</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
-        <div style="width: 300px;">
+        <!-- <div style="width: 300px;">
           <form (ngSubmit)="onSubmitSlot()">
             <div class="form-group">
               <label for="item"></label>
@@ -31,11 +41,11 @@
               <button type="submit" class="btn btn-success">Book</button>
             </div>
           </form>
-        </div>
+        </div> -->
 
       </div>
 
-      <div class="dateContainer">
+      <!-- <div class="dateContainer">
         <div style="color: grey;">
           <h4>Select the date</h4>
         </div>
@@ -53,9 +63,9 @@
 
           </form>
         </div>
-      </div>
+      </div> -->
     </div>
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
       <div style="color: grey;">
         <h4 style="color: red;">{{DisplayMessageDate}}</h4>
         <h4 style="color: red;">{{DisplayMessageSlot}}</h4>
@@ -71,6 +81,6 @@
         <pre *ngFor="let item of bookings ">{{item.key}} - {{item.value}}<br><div [hidden]="item.hidden" class="btn btn-success" (click)="onCancelSlot(item.key)">Cancel</div></pre>
       </div>
 
-    </div>
+    </div> -->
   </div>
 </div>

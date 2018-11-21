@@ -22,6 +22,11 @@
     animation-duration: 1s;
 }
 
+.userInput .mat-form-field{
+  width: 80%;
+  font-size: 150%
+}
+
 .plan-price{
   font-size: 300%;
   margin-bottom: 10px;

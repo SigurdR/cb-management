@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../services/auth.service';
@@ -8,14 +8,8 @@ import { Slot } from '../models/slot';
 import { Event } from '../models/event';
 import { ISubscription } from 'rxjs/Subscription';
 import { EventService } from '../services/event.service';
-import { Services } from '@angular/core/src/view';
-import { MatDatepicker } from '@angular/material';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { FormControl } from '@angular/forms';
-import * as _moment from 'moment';
-
-const moment = _moment;
+import { MatSelect, MatInput } from '@angular/material';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-booking',
@@ -26,8 +20,14 @@ const moment = _moment;
 
 export class BookingComponent implements OnInit {
 
-  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+  
+  // @ViewChild('dateInput') MatInput;
 
+  
+
+  
+
+  
 
 
   private slotSubscription: ISubscription;
@@ -59,11 +59,15 @@ export class BookingComponent implements OnInit {
   lastEvNum = 0;
   minDate: Date;
   maxDate: Date;
-  mDate: FormControl;
+  dateNotSet: boolean;
+  // mDate: FormControl;
   
 
-  MAT_DATE_FORMATS = MAT_MOMENT_DATE_FORMATS;
+  // MAT_DATE_FORMATS = MAT_MOMENT_DATE_FORMATS;
   // eArray: Event[];
+
+  // @Output() orgValueChange = new EventEmitter();
+  
   
 
   constructor(public db: AngularFireDatabase, 
@@ -96,7 +100,9 @@ export class BookingComponent implements OnInit {
     this.minDate = new Date(date.setDate(date.getDate()+1));
     this.maxDate = new Date(date.setDate(date.getDate()+13));
 
-     this.mDate = new FormControl(moment([2017,0,1]));
+    this.dateNotSet = true;
+    
+
   }
 
   ngOnInit() {
@@ -307,12 +313,20 @@ export class BookingComponent implements OnInit {
   serializeEvent(data: any, insert: boolean = false): Event {
     const result = {};
 
-        for(let i in data){
-            if(i.charAt(0) == "$" || i.charAt(0) == "_") continue;
-            if(insert && i == "id") continue;
-            result[i] = data[i];
-        }
-        return result as Event;
-    }
+      for(let i in data){
+          if(i.charAt(0) == "$" || i.charAt(0) == "_") continue;
+          if(insert && i == "id") continue;
+          result[i] = data[i];
+      }
+      return result as Event;
+  }
+
+  orgValueChanged() {
+    // this.orgValueChange.emit();
+    this.dateNotSet=false;
+    
+
+
+  }
 }
 

@@ -15,41 +15,42 @@ import { container } from '@angular/core/src/render3';
 const appRoutes: Routes = [
     {
         path: '',
-        component: LoginComponent
+        // component: LoginComponent
+        component: DashboardComponent
     },
     {
         path: 'dashboard',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: DashboardComponent
     },
     {
         path: 'navbar',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: NavbarComponent
     },
     {
         path: 'about',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: AboutComponent
     },
     {
         path: 'contact',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: ContactComponent
     },
     {
         path: 'booking',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: BookingComponent
     },
     {
         path: 'gallery',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: GalleryComponent
     },
     {
         path: 'registeruser',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         component: RegisteruserComponent
     },
 ];
