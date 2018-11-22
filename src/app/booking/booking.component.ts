@@ -6,10 +6,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { BookingsService } from "../services/bookings.service";
 import { Slot } from '../models/slot';
 import { Event } from '../models/event';
+import { SlotAvail } from '../models/slotAvail';
 import { ISubscription } from 'rxjs/Subscription';
 import { EventService } from '../services/event.service';
-import { MatSelect, MatInput } from '@angular/material';
-import { EventEmitter } from 'protractor';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-booking',
@@ -33,6 +33,10 @@ export class BookingComponent implements OnInit {
   private slotSubscription: ISubscription;
   private hbSubscription: ISubscription;
   private evSubscription: ISubscription;
+  private shortSlotSubs: ISubscription;
+  private exSubs: ISubscription;
+
+  evLog: Observable<any[]>;
 
   
 
@@ -60,6 +64,8 @@ export class BookingComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   dateNotSet: boolean;
+  slotToSelect = [];
+  slotAvail = [];
   
   
   
@@ -105,6 +111,8 @@ export class BookingComponent implements OnInit {
       this.timeSlot = timeSlot;
     });
 
+    
+
     // this.evSubscription = this.eventService.getEvents().subscribe((serverEvent: Array<Event>) => {
     //   this.serverEvent = serverEvent;
     // })
@@ -114,7 +122,7 @@ export class BookingComponent implements OnInit {
     this.slotSubscription.unsubscribe();
     this.hbSubscription.unsubscribe();
     this.evSubscription.unsubscribe();
-    
+    this.shortSlotSubs.unsubscribe();
   }
 
   calculateSlotsInfo() {
@@ -240,6 +248,40 @@ export class BookingComponent implements OnInit {
     this.calculateBookingsInfo();
   }
 
+  getAvailSlot(data: any) {
+
+    this.slotToSelect = [];
+
+    this.shortSlotSubs = this.bookingsService.getSlot().subscribe((slotAvail: Array<SlotAvail>) => {
+      this.slotAvail = slotAvail;
+    });
+
+    if (this.selectedDate == null) {
+      this.slotToSelect = this.slotAvail
+    }
+    else {
+      var items = [];
+      data.forEach(snapshot => {
+        items.push(snapshot.start_date);
+      });
+
+      for (var j=0; j<items.length; j++) {
+        let recordDate = new Date(items[j]);
+        for (var i=0; i<this.slotAvail.length;i++) {
+          let inputDate = new Date(this.selectedDate + "T" + this.slotAvail[i]);
+          let inputDateStart = new Date(this.selectedDate + "T" + "12:00:00");
+          let inputDateEnd = new Date(this.selectedDate + "T" + "23:00:00");
+
+          if (recordDate >= inputDateStart && recordDate <= inputDateEnd ) {
+            if (recordDate != inputDate) {
+                this.slotToSelect.push(this.slotAvail[i])
+            }
+          }
+        }
+      }
+    }
+  }
+
   findLastEv() {
 
     this.eventLog = this.eventService.getCurrentEvents();
@@ -249,9 +291,48 @@ export class BookingComponent implements OnInit {
         return Math.max.apply(Math, data.map((item) => {
           this.lastEvNum = Number(item.id)+1
         }))
+        this.getAvailSlot(data); 
       }
       else this.lastEvNum = Number(1)
     });
+
+    // this.evLog = this.eventService.getCurrentEvents();
+    // this.exSubs = this.evLog.subscribe((data) => {
+    //   if (data && data.length > 0) {
+    //     var items = [];
+    //     data.forEach(snapshot => {
+
+    //       // var temp = {
+    //       //   key: "",
+    //       //   value: ""
+    //       // };
+
+    //       // temp.key = snapshot.key;
+    //       // temp.value = snapshot.payload.val();
+          
+    //       items.push(snapshot.start_date);
+    //     });
+    //     this.slotToSelect = [];
+      
+    //     for (var j=0; j<items.length; j++) {
+    //       let recordDate = new Date(items[j]);
+    //       for (var i=0; i<this.slotAvail.length;i++) {
+    //         let inputDate = new Date(this.selectedDate + "T" + this.slotAvail[i]);
+    //         let inputDateStart = new Date(this.selectedDate + "T" + "12:00:00");
+    //         let inputDateEnd = new Date(this.selectedDate + "T" + "23:00:00");
+
+    //         if (recordDate >= inputDateStart && recordDate <= inputDateEnd ) {
+    //           if (recordDate != inputDate) {
+    //               this.slotToSelect.push(this.slotAvail[i])
+    //           }
+    //         }
+    //       }
+    //     }
+            
+          
+        
+    //   }
+    // })
   }
 
 
@@ -317,6 +398,7 @@ export class BookingComponent implements OnInit {
 
   enableTimeSelect() {
     this.dateNotSet = false;
+    this.findLastEv();
   }
 }
 

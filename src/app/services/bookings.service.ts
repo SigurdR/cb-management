@@ -8,6 +8,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import 'rxjs/add/operator/map';
 import { Slot } from '../models/slot';
+import { SlotAvail } from '../models/slotAvail';
 
 @Injectable()
 export class BookingsService {
@@ -49,6 +50,16 @@ export class BookingsService {
       });
     })     
   }
+
+  getSlot(): Observable<any[]> {
+    return this.db.list('/slots/').snapshotChanges().map((changes) => {
+      return changes.map( c => {
+        return new SlotAvail({key: c.payload.key, ...c.payload.val()});
+      });
+    })
+  }
+
+  
 
   
 

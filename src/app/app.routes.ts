@@ -15,8 +15,8 @@ import { container } from '@angular/core/src/render3';
 const appRoutes: Routes = [
     {
         path: '',
-        component: LoginComponent
-        // component: DashboardComponent
+        // component: LoginComponent
+        component: DashboardComponent
     },
     {
         path: 'dashboard',

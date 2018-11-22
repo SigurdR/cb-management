@@ -18,19 +18,21 @@
               [min] = "minDate" 
               [max] = "maxDate" 
               [matDatepicker] = "picker" 
-              placeholder="Choose a Date"
-               (dateInput)="enableTimeSelect">
+              placeholder="Choose a Date" 
+              (dateChange)="enableTimeSelect()"
+              required [(ngModel)]="selectedDate"
+              name="date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="Time">
             <mat-select placeholder="Time Slot" [disabled]="dateNotSet">
-              <mat-option value="2:00">2:00</mat-option>
-              <mat-option value="4:00">4:00</mat-option>
+              <mat-option *ngFor="let slot of slotToSelect"[value]="slot.start_time">{{slot.start_time}}</mat-option>
+              <!-- <mat-option value="4:00">4:00</mat-option>
               <mat-option value="6:00">6:00</mat-option>
               <mat-option value="8:00">8:00</mat-option>
               <mat-option value="10:00">10:00</mat-option>
-              <mat-option value="12:00">12:00</mat-option>
+              <mat-option value="12:00">12:00</mat-option> -->
             </mat-select>
           </mat-form-field>
         </div>
