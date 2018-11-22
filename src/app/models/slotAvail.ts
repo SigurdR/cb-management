@@ -1,14 +1,14 @@
 import { Deserializable } from '../shared/interfaces/deserializable.interface';
 
-export class SlotAvail implements Deserializable {
+export class SlotAvail{
     
     start_time: Date;
-    open: Boolean;
+    // open: Boolean;
     
 
-    constructor(slotToSelect: any = {}) {
-        this.start_time = slotToSelect.start_time;
-        this.open = slotToSelect.open;
+    constructor(slotAvail: any = {}) {
+        this.start_time = slotAvail.start_time;
+        // this.open = slotToSelect.open;
     }
 
     deserialize(input: any) {

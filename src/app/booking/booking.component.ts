@@ -34,7 +34,6 @@ export class BookingComponent implements OnInit {
   private hbSubscription: ISubscription;
   private evSubscription: ISubscription;
   private shortSlotSubs: ISubscription;
-  private exSubs: ISubscription;
 
   evLog: Observable<any[]>;
 
@@ -65,7 +64,7 @@ export class BookingComponent implements OnInit {
   maxDate: Date;
   dateNotSet: boolean;
   slotToSelect = [];
-  slotAvail = [];
+  slotAvailArray = [];
   
   
   
@@ -248,50 +247,16 @@ export class BookingComponent implements OnInit {
     this.calculateBookingsInfo();
   }
 
-  getAvailSlot(data: any) {
-
-    this.slotToSelect = [];
-
-    this.shortSlotSubs = this.bookingsService.getSlot().subscribe((slotAvail: Array<SlotAvail>) => {
-      this.slotAvail = slotAvail;
-    });
-
-    if (this.selectedDate == null) {
-      this.slotToSelect = this.slotAvail
-    }
-    else {
-      var items = [];
-      data.forEach(snapshot => {
-        items.push(snapshot.start_date);
-      });
-
-      for (var j=0; j<items.length; j++) {
-        let recordDate = new Date(items[j]);
-        for (var i=0; i<this.slotAvail.length;i++) {
-          let inputDate = new Date(this.selectedDate + "T" + this.slotAvail[i]);
-          let inputDateStart = new Date(this.selectedDate + "T" + "12:00:00");
-          let inputDateEnd = new Date(this.selectedDate + "T" + "23:00:00");
-
-          if (recordDate >= inputDateStart && recordDate <= inputDateEnd ) {
-            if (recordDate != inputDate) {
-                this.slotToSelect.push(this.slotAvail[i])
-            }
-          }
-        }
-      }
-    }
-  }
-
   findLastEv() {
 
     this.eventLog = this.eventService.getCurrentEvents();
     this.evSubscription = this.eventLog.subscribe(data => {
       
       if (data && data.length > 0) {
+        this.getAvailSlot(data);
         return Math.max.apply(Math, data.map((item) => {
           this.lastEvNum = Number(item.id)+1
         }))
-        this.getAvailSlot(data); 
       }
       else this.lastEvNum = Number(1)
     });
@@ -333,6 +298,51 @@ export class BookingComponent implements OnInit {
         
     //   }
     // })
+  }
+
+  getAvailSlot(data: any) {
+
+    this.slotToSelect = [];
+
+    // this.shortSlotSubs = this.bookingsService.getSlot().subscribe((slotAvail: Array<SlotAvail>) => {
+    //   this.slotAvailArray = Object.assign([],slotAvail);
+    // });
+
+    var slotAvailArray = [];
+    this.shortSlotSubs = this.bookingsService.getSlot().subscribe(data => {
+      data.forEach(snapshot => {
+        slotAvailArray.push(snapshot.start_time);
+      });
+
+      this.slotAvailArray = slotAvailArray;
+    });
+
+    // this.slotAvailArray = slotAvailArray;
+
+    if (this.selectedDate == null) {
+      this.slotToSelect = this.slotAvailArray
+    }
+    else {
+      var items = [];
+      data.forEach(snapshot => {
+        items.push(snapshot.start_date);
+      });
+
+      for (var j=0; j<items.length; j++) {
+        let recordDate = new Date(items[j]);
+        // for (var i=0; i<this.slotAvail.length;i++) {
+        //   let inputDate = new Date(this.selectedDate + "T" + this.slotAvail[i]);
+        //   let inputDateStart = new Date(this.selectedDate + "T" + "12:00:00");
+        //   let inputDateEnd = new Date(this.selectedDate + "T" + "23:00:00");
+
+        //   if (recordDate >= inputDateStart && recordDate <= inputDateEnd ) {
+        //     if (recordDate != inputDate) {
+        //         this.slotToSelect.push(this.slotAvail[i])
+        //     }
+        //   }
+        // }
+      }
+    }
   }
 
 
