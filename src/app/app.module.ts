@@ -41,6 +41,7 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
 import { EventService } from './services/event.service';
 import { MaterialModule } from './material.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DateAdapter } from '@angular/material';
 
 
 
@@ -82,8 +83,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ImageFilterPipe,
     BookingsService,
     ProfileService,
-    EventService
+    EventService,
+    MaterialModule
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor (private dateAdapter: DateAdapter<Date> ) {
+    dateAdapter.setLocale('zh-TW');
+  }
+}

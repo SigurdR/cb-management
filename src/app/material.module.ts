@@ -43,11 +43,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         {
             provide: DateAdapter,
             useClass: DateFormat
-        },
-        {
-            provide: MAT_DATE_LOCALE,
-            useValue: 'zh-TW'
         }
+        // {
+        //     provide: MAT_DATE_LOCALE,
+        //     useValue: 'zh-TW'
+        // }
     ],
     exports: [
         MatBadgeModule,
@@ -67,8 +67,4 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ]
 })
 
-export class MaterialModule {
-    constructor (private dateAdapter: DateAdapter<Date> ) {
-        dateAdapter.setLocale('en-in');
-    }
-}
+export class MaterialModule {}

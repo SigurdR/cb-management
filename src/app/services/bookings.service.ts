@@ -51,13 +51,18 @@ export class BookingsService {
     })     
   }
 
+  // getSlot(): Observable<any[]> {
+  //   return this.db.list('/slots/').snapshotChanges().map((changes) => {
+  //     return changes.map( c => {
+  //       return new SlotAvail({key: c.payload.key, ...c.payload.val()});
+  //     });
+  //   })
+  // }
+
   getSlot(): Observable<any[]> {
-    return this.db.list('/slots/').snapshotChanges().map((changes) => {
-      return changes.map( c => {
-        return new SlotAvail({key: c.payload.key, ...c.payload.val()});
-      });
-    })
+    return this.db.list('/slots/').snapshotChanges()
   }
+
 
   
 
