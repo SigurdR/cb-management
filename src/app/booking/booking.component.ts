@@ -63,8 +63,8 @@ export class BookingComponent implements OnInit {
   slotAvailArray = [];
   simpleDate: Date;
   dateHKBookTime: Date;
-  utcOffsetHK: Number = -480;
-  utcOffsetLocal: Number = new Date().getTimezoneOffset();
+  utcOffsetHK = -480;
+  utcOffsetLocal = new Date().getTimezoneOffset();
   
   
   
@@ -415,8 +415,8 @@ export class BookingComponent implements OnInit {
 
   convertToHKUTC() {
 
-    var diff = Number(this.utcOffsetLocal)-Number(this.utcOffsetHK);
-    this.dateHKBookTime = new Date(this.selectedDate.getTime() + Number(diff)*60000);
+    var diff = this.utcOffsetLocal-this.utcOffsetHK;
+    this.dateHKBookTime = new Date(this.selectedDate.getTime() + diff*60000);
   }
 }
 
