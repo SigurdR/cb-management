@@ -26,14 +26,10 @@
               <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="Time">
-            <mat-select placeholder="Time Slot" [disabled]="dateNotSet">
-              <mat-option *ngFor="let slot of slotToSelect"[value]="slot.start_time">{{slot.start_time}}</mat-option>
-              <!-- <mat-option value="4:00">4:00</mat-option>
-              <mat-option value="6:00">6:00</mat-option>
-              <mat-option value="8:00">8:00</mat-option>
-              <mat-option value="10:00">10:00</mat-option>
-              <mat-option value="12:00">12:00</mat-option> -->
+            <mat-select placeholder="Time Slot" [disabled]="dateNotSet" required [(ngModel)]="selectedSlot">
+              <mat-option *ngFor="let slot of slotToSelect"[value]="slot">{{slot}}</mat-option>
             </mat-select>
+            <button mat-raised-button>Select</button>
           </mat-form-field>
         </div>
 
