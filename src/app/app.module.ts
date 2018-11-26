@@ -42,6 +42,8 @@ import { EventService } from './services/event.service';
 import { MaterialModule } from './material.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateAdapter } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NavtabsComponent } from './navtabs/navtabs.component';
 
 
 
@@ -58,7 +60,8 @@ import { DateAdapter } from '@angular/material';
     RegisteruserComponent,
     SchedulerComponent,
     ImageDetailComponent,
-    ImageFilterPipe
+    ImageFilterPipe,
+    NavtabsComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ import { DateAdapter } from '@angular/material';
     // AngularFireAuthModule,
     // AngularFirestoreModule,
     ToastrModule.forRoot(),
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
     ],
   providers: [
     ImageService, 

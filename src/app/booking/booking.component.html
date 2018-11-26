@@ -1,5 +1,6 @@
 <div class="container">
-  <app-navbar></app-navbar>
+  <!-- <app-navbar></app-navbar> -->
+  <app-navtabs></app-navtabs>
   <div class="jumbotron centeredContent">
 
     <div style="color: grey;text-align:center;">
@@ -26,10 +27,12 @@
               <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="Time">
-            <mat-select placeholder="Time Slot" [disabled]="dateNotSet" required [(ngModel)]="selectedSlot">
+            <mat-select placeholder="Time Slot" 
+            [disabled]="dateNotSet" required 
+            [(ngModel)]="selectedSlot" 
+            (selectionChange)="enableButton()">
               <mat-option *ngFor="let slot of slotToSelect"[value]="slot">{{slot}}</mat-option>
             </mat-select>
-            <button mat-raised-button>Select</button>
           </mat-form-field>
         </div>
 
@@ -45,7 +48,9 @@
             </div>
           </form>
         </div> -->
-
+        <button mat-raised-button color="primary" 
+        [disabled]="timeNotSet"
+        (click)="bookingSubmit()">Submit</button>
       </div>
 
       <!-- <div class="dateContainer">

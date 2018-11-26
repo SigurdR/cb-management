@@ -1,0 +1,38 @@
+<div class="navtabs-container">
+  <nav mat-tab-nav-bar fxFlex fxLayout fxLayoutAlign="center center">
+
+    <a mat-tab-link routerLink="../dashboard"
+      routerLinkActive #dashboard="routerLinkActive"
+      [active]="dashboard.isActive">
+      Home
+    </a>
+
+    <a mat-tab-link routerLink="../about"
+      routerLinkActive #about="routerLinkActive"
+      [active]="about.isActive">
+      About
+    </a>
+
+    <a mat-tab-link routerLink="../booking"
+      routerLinkActive #booking="routerLinkActive"
+      [active]="booking.isActive">
+      Hall Booking
+    </a>
+
+    <a mat-tab-link routerLink="../gallery"
+      routerLinkActive #gallery="routerLinkActive"
+      [active]="gallery.isActive">
+      Gallery
+    </a>
+
+    <a mat-tab-link routerLink="../contact"
+      routerLinkActive #contact="routerLinkActive"
+      [active]="contact.isActive">
+      Contact
+    </a>
+
+  </nav>
+  <router-outlet></router-outlet>
+</div>
+
+

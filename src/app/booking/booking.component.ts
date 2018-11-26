@@ -36,7 +36,8 @@ export class BookingComponent implements OnInit {
 
   
 
-  title = 'SRH Großer hall Booking';
+  // title = 'SRH Großer hall Booking';
+  title = 'Making an appointment';
   description = 'Book your slot';
   DisplayMessageDate = '';
   DisplayMessageSlot = '';
@@ -62,6 +63,8 @@ export class BookingComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   dateNotSet: boolean;
+  timeNotSet: boolean;
+  eventData: any;
   slotToSelect = [];
   // slotAvailArray = [];
   simpleDate: Date;
@@ -86,7 +89,7 @@ export class BookingComponent implements OnInit {
 
     this.calculateSlotsInfo();
     this.calculateBookingsInfo();
-    this.findLastEv();
+    
 
     // below shall uncomment after test
 
@@ -102,13 +105,18 @@ export class BookingComponent implements OnInit {
       this.currentUser = this.currentUserEmailName;
     }
 
+    this.findLastEv();
+    // this.slotToSelect = this.getAvailSlot(this.eventData);
+
+
     // date.getDate return the day of the month
     // date.setDate(day of the month) return the date object with the day of the month
 
-    this.minDate = new Date(date.setDate(date.getDate()+1));
-    this.maxDate = new Date(date.setDate(date.getDate()+13));
+    this.minDate = this.convertToHKUTC(new Date(date.setDate(date.getDate()+1)));
+    this.maxDate = this.convertToHKUTC(new Date(date.setDate(date.getDate()+13)));
 
     this.dateNotSet = true;
+    this.timeNotSet = true;
     
 
   }
@@ -271,41 +279,43 @@ export class BookingComponent implements OnInit {
     });
   }
 
+
   getAvailSlot(data: any) : String[]{
 
-    let slotAvailArray = [];
-    let elementToRemove = 0;
+    if (data && data.length > 0) {
+      let slotAvailArray = [];
 
-    this.shortSlotSubs = this.bookingsService.getSlot().subscribe(c => {
-      c.forEach(snapshot => {
-        slotAvailArray.push(snapshot.payload.val());
-      });
-
-
-      if (this.selectedDateStr != null) {
-        let items = [];
-        data.forEach(snapshot => {
-          items.push(snapshot.start_date);
+      this.shortSlotSubs = this.bookingsService.getSlot().subscribe(c => {
+        c.forEach(snapshot => {
+          slotAvailArray.push(snapshot.payload.val());
         });
-  
-        for (var j=0; j<items.length; j++) {
-          let recordDate = new Date(items[j]);
-          for (var i=0; i<slotAvailArray.length;i++) {
-            let inputDate = new Date(this.selectedDateStr+"T"+this.convert12to24UTC(slotAvailArray[i],true)+"Z");
-            let inputDateStart = new Date(new Date(new Date(this.selectedDateStr+"T"+"00:00:00").toJSON()).toUTCString());
-            let inputDateEnd = new Date(this.selectedDateStr+"T"+"23:00:00");
-  
-            if (recordDate >= inputDateStart && recordDate <= inputDateEnd ) {
-              if (recordDate.getTime() == inputDate.getTime()) {
-                  slotAvailArray.splice(i,1);
+
+
+        if (this.selectedDateStr != null) {
+          let items = [];
+          data.forEach(snapshot => {
+            items.push(snapshot.start_date);
+          });
+    
+          for (var j=0; j<items.length; j++) {
+            let recordDate = new Date(items[j]);
+            for (var i=0; i<slotAvailArray.length;i++) {
+              let inputDate = new Date(this.selectedDateStr+"T"+this.convert12to24UTC(slotAvailArray[i],true)+"Z");
+              let inputDateStart = new Date(new Date(new Date(this.selectedDateStr+"T"+"00:00:00").toJSON()).toUTCString());
+              let inputDateEnd = new Date(this.selectedDateStr+"T"+"23:00:00");
+    
+              if (recordDate >= inputDateStart && recordDate <= inputDateEnd ) {
+                if (recordDate.getTime() == inputDate.getTime()) {
+                    slotAvailArray.splice(i,1);
+                }
               }
             }
           }
         }
-      }
-      this.slotToSelect = slotAvailArray;
-    });
-    return this.slotToSelect;
+        this.slotToSelect = slotAvailArray;
+      });
+      return this.slotToSelect;
+    }
   }
 
 
@@ -374,6 +384,8 @@ export class BookingComponent implements OnInit {
 
   enableTimeSelect() {
     
+    this.slotToSelect = [];
+    this.selectedSlot = "";
     // this.convertToHKUTC;
     this.selectedDateStr = new Date(new Date(new Date(this.selectedDate.getTime()+480*60000).toJSON()).toUTCString()).toJSON().substr(0,10);
     // this.selectedDateStr = new Date(new Date(new Date(this.dateHKBookTime.getTime() + 480*60000).toJSON()).toUTCString()).toJSON().substr(0,10);
@@ -381,10 +393,11 @@ export class BookingComponent implements OnInit {
     this.findLastEv();
   }
 
-  convertToHKUTC() {
+  convertToHKUTC(localDate: Date) : Date {
 
     var diff = this.utcOffsetLocal-this.utcOffsetHK;
-    this.dateHKBookTime = new Date(this.selectedDate.getTime() + diff*60000);
+    // this.dateHKBookTime = new Date(this.selectedDate.getTime() + diff*60000);
+    return new Date(localDate.getTime() + diff*60000);
   }
 
   convert12to24UTC(time: string, halfToFull: boolean): string {
@@ -413,6 +426,14 @@ export class BookingComponent implements OnInit {
         } 
       }
     }
+  }
+
+  enableButton() {
+    this.timeNotSet = false;
+  }
+
+  bookingSubmit() {
+
   }
 }
 

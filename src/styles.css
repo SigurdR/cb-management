@@ -8,18 +8,34 @@ html{
 }
 
 body{
-    font-family: 'Lato', sans-serif;
-    color: rgb(15, 15, 15);
-    background-color: #0b8339;
-    height: 100%;
-  }
-  
-  .main-content{
-    padding-top: 60px;
-    color: #333;
-  }
-  
-  h1 h2 h3 h4 h5{
-    font-family: 'Monteserrat', sans-serif;
-    color: #333;
-  }
+  font-family: 'Lato', sans-serif;
+  color: rgb(15, 15, 15);
+  background-color: #0b8339;
+  height: 100%;
+}
+
+.main-content{
+  padding-top: 60px;
+  color: #333;
+}
+
+h1 h2 h3 h4 h5{
+  font-family: 'Monteserrat', sans-serif;
+  color: #333;
+}
+
+.primary-color {
+  color: #3F51B5!important;
+}
+.accent-color {
+  color: #FF4081!important;
+}
+.background-primary-color {
+  background-color: #3F51B5!important;
+}
+.background-accent-color {
+  background-color: #FF4081!important;
+}
+.white-text {
+  color: #FFF!important;
+}
